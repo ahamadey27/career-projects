@@ -11,6 +11,14 @@ GO
 -- Create the table for maintenance records
 IF NOT EXISTS (SELECT * FROM sysobjects WHERE name='MaintenanceRecords' and xtype='U')
 BEGIN
+    -- The table below stores one maintenance activity per row.
+    -- Columns:
+    --   Id            : unique identifier for the record (auto-incrementing)
+    --   EquipmentName : short name of the equipment (up to 100 chars)
+    --   Description   : detailed notes about the maintenance (unlimited length)
+    --   MaintenanceDate: when the maintenance occurred (high precision)
+    --   PerformedBy   : technician or person who performed the work
+    --   IsCompleted   : boolean flag (0 = not completed, 1 = completed)
     CREATE TABLE MaintenanceRecords (
         Id INT PRIMARY KEY IDENTITY(1,1),
         EquipmentName NVARCHAR(100) NOT NULL,
@@ -28,6 +36,9 @@ GO
 CREATE OR ALTER PROCEDURE sp_GetAllMaintenanceRecords
 AS
 BEGIN
+    -- Returns all rows from the MaintenanceRecords table.
+    -- Useful for building lists or reports.
+    -- The results are ordered by MaintenanceDate descending (newest first).
     SELECT Id, EquipmentName, Description, MaintenanceDate, PerformedBy, IsCompleted 
     FROM MaintenanceRecords
     ORDER BY MaintenanceDate DESC;
@@ -39,6 +50,9 @@ CREATE OR ALTER PROCEDURE sp_GetMaintenanceRecordById
     @Id INT
 AS
 BEGIN
+    -- Returns a single maintenance record identified by the primary key @Id.
+    -- Input: @Id (INT) - the Id value of the row you want.
+    -- Output: the matching row, or no rows if the Id does not exist.
     SELECT Id, EquipmentName, Description, MaintenanceDate, PerformedBy, IsCompleted 
     FROM MaintenanceRecords 
     WHERE Id = @Id;
@@ -54,6 +68,9 @@ CREATE OR ALTER PROCEDURE sp_CreateMaintenanceRecord
     @IsCompleted BIT
 AS
 BEGIN
+    -- Inserts a new maintenance record using the provided parameters.
+    -- Note: this procedure does not return the new Id. If you need the Id,
+    -- consider using SCOPE_IDENTITY() after the insert or returning it explicitly.
     INSERT INTO MaintenanceRecords (EquipmentName, Description, MaintenanceDate, PerformedBy, IsCompleted)
     VALUES (@EquipmentName, @Description, @MaintenanceDate, @PerformedBy, @IsCompleted);
 END;
@@ -69,6 +86,8 @@ CREATE OR ALTER PROCEDURE sp_UpdateMaintenanceRecord
     @IsCompleted BIT
 AS
 BEGIN
+    -- Updates the row with the given @Id. All columns are updated to the
+    -- supplied parameter values. If @Id does not exist, no rows are changed.
     UPDATE MaintenanceRecords
     SET 
         EquipmentName = @EquipmentName,
@@ -85,6 +104,8 @@ CREATE OR ALTER PROCEDURE sp_DeleteMaintenanceRecord
     @Id INT
 AS
 BEGIN
+    -- Deletes the record with the specified @Id. This is irreversible, so
+    -- use with caution. You might prefer to soft-delete (add a flag) in real apps.
     DELETE FROM MaintenanceRecords 
     WHERE Id = @Id;
 END;

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using equipment_maintenance_log.Models;
 
 namespace equipment_maintenance_log.Models
 {

@@ -1,0 +1,6 @@
+@equipment_maintenance_log_HostAddress = http://localhost:5057
+
+GET {{equipment_maintenance_log_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

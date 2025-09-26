@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "5YL7KXqyu7Y=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\hamad\\OneDrive\\Documentos\\GitHub\\career-projects\\equipment-maintenance-log\\equipment-maintenance-log.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\hamad\\.nuget\\packages\\microsoft.aspnetcore.openapi\\9.0.8\\microsoft.aspnetcore.openapi.9.0.8.nupkg.sha512",
+    "C:\\Users\\hamad\\.nuget\\packages\\microsoft.openapi\\1.6.17\\microsoft.openapi.1.6.17.nupkg.sha512"
+  ],
+  "logs": []
+}

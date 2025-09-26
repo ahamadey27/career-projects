@@ -1,0 +1,91 @@
+-- Create the database if it doesn't exist
+IF NOT EXISTS (SELECT * FROM sys.databases WHERE name = 'MaintenanceLogDB')
+BEGIN
+    CREATE DATABASE MaintenanceLogDB;
+END;
+GO
+
+USE MaintenanceLogDB;
+GO
+
+-- Create the table for maintenance records
+IF NOT EXISTS (SELECT * FROM sysobjects WHERE name='MaintenanceRecords' and xtype='U')
+BEGIN
+    CREATE TABLE MaintenanceRecords (
+        Id INT PRIMARY KEY IDENTITY(1,1),
+        EquipmentName NVARCHAR(100) NOT NULL,
+        Description NVARCHAR(MAX) NOT NULL,
+        MaintenanceDate DATETIME2 NOT NULL,
+        PerformedBy NVARCHAR(100) NOT NULL,
+        IsCompleted BIT NOT NULL DEFAULT 0
+    );
+END;
+GO
+
+--- Stored Procedures for CRUD Operations ---
+
+-- GET ALL RECORDS
+CREATE OR ALTER PROCEDURE sp_GetAllMaintenanceRecords
+AS
+BEGIN
+    SELECT Id, EquipmentName, Description, MaintenanceDate, PerformedBy, IsCompleted 
+    FROM MaintenanceRecords
+    ORDER BY MaintenanceDate DESC;
+END;
+GO
+
+-- GET RECORD BY ID
+CREATE OR ALTER PROCEDURE sp_GetMaintenanceRecordById
+    @Id INT
+AS
+BEGIN
+    SELECT Id, EquipmentName, Description, MaintenanceDate, PerformedBy, IsCompleted 
+    FROM MaintenanceRecords 
+    WHERE Id = @Id;
+END;
+GO
+
+-- CREATE NEW RECORD
+CREATE OR ALTER PROCEDURE sp_CreateMaintenanceRecord
+    @EquipmentName NVARCHAR(100),
+    @Description NVARCHAR(MAX),
+    @MaintenanceDate DATETIME2,
+    @PerformedBy NVARCHAR(100),
+    @IsCompleted BIT
+AS
+BEGIN
+    INSERT INTO MaintenanceRecords (EquipmentName, Description, MaintenanceDate, PerformedBy, IsCompleted)
+    VALUES (@EquipmentName, @Description, @MaintenanceDate, @PerformedBy, @IsCompleted);
+END;
+GO
+
+-- UPDATE RECORD
+CREATE OR ALTER PROCEDURE sp_UpdateMaintenanceRecord
+    @Id INT,
+    @EquipmentName NVARCHAR(100),
+    @Description NVARCHAR(MAX),
+    @MaintenanceDate DATETIME2,
+    @PerformedBy NVARCHAR(100),
+    @IsCompleted BIT
+AS
+BEGIN
+    UPDATE MaintenanceRecords
+    SET 
+        EquipmentName = @EquipmentName,
+        Description = @Description,
+        MaintenanceDate = @MaintenanceDate,
+        PerformedBy = @PerformedBy,
+        IsCompleted = @IsCompleted
+    WHERE Id = @Id;
+END;
+GO
+
+-- DELETE RECORD
+CREATE OR ALTER PROCEDURE sp_DeleteMaintenanceRecord
+    @Id INT
+AS
+BEGIN
+    DELETE FROM MaintenanceRecords 
+    WHERE Id = @Id;
+END;
+GO

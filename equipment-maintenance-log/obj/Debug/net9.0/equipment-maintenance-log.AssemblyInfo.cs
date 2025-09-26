@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("equipment-maintenance-log")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5a592d2284a4d20ae765adb42a7de59a96acb3e2")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+95e41a20f5c95ea22322966dc896df5484f36863")]
 [assembly: System.Reflection.AssemblyProductAttribute("equipment-maintenance-log")]
 [assembly: System.Reflection.AssemblyTitleAttribute("equipment-maintenance-log")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
